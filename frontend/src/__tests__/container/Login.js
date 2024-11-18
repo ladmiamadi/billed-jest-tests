@@ -9,13 +9,13 @@ import LoginUI from "../../views/LoginUI.js";
 import {fireEvent, screen, waitFor} from "@testing-library/dom";
 import {ROUTES_PATH} from "../../constants/routes.js";
 
+beforeAll(() => {
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+    document.body.innerHTML = LoginUI();
+})
 
 describe("Given I am on the Login page", () => {
     test("When submitting the form as Admin, it should store user in localStorage, navigate to Dashboard, and set background color", async () => {
-        document.body.innerHTML = LoginUI();
-
-        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
         const onNavigateMock = jest.fn();
 
         const loginInstance = new Login({
@@ -28,7 +28,7 @@ describe("Given I am on the Login page", () => {
             }
         });
 
-       const emailInput = screen.getByTestId("admin-email-input");
+        const emailInput = screen.getByTestId("admin-email-input");
         const passwordInput = screen.getByTestId("admin-password-input");
 
         fireEvent.change(emailInput, { target: { value: "admin@test.com" } });
@@ -54,10 +54,6 @@ describe("Given I am on the Login page", () => {
     });
 
     test("When submitting the form as Employee, it should store user in localStorage, navigate to Dashboard, and set background color", async () => {
-        document.body.innerHTML = LoginUI();
-
-        Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
         const onNavigateMock = jest.fn();
 
         const user = {
@@ -98,12 +94,7 @@ describe("Given I am on the Login page", () => {
 
     describe("When login fails", () => {
         test("it should call createUser function when login fails", async () => {
-            document.body.innerHTML = LoginUI();
-
-            Object.defineProperty(window, 'localStorage', { value: localStorageMock });
-
             const onNavigateMock = jest.fn();
-
             const user = {
                 type: "Employee",
                 email: "employee@test.com",
@@ -138,9 +129,6 @@ describe("Given I am on the Login page", () => {
                 //fireEvent.submit(form);
                 expect(loginInstance.login(user)).rejects.toThrow(new Error("Login failed"))
             });
-
         });
-
-
     })
 });

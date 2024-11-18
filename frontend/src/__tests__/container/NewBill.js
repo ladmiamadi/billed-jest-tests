@@ -141,7 +141,6 @@ describe("Given I am connected as an employee", () => {
                 const errorSpan = document.getElementById("fileErrors");
                 expect(errorSpan).not.toBeNull();
             });
-
         });
     });
 });

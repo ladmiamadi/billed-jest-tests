@@ -25,7 +25,6 @@ describe("Given i am connected as employee", ()=> {
         });
 
         test("Should display bills", async () => {
-
             const billsList = new Instance({
                 document,
                 onNavigate: jest.fn(),
